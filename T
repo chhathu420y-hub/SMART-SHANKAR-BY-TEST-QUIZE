@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Shankar Test Quiz</title>
+</head>
+<body>
+  <h1>Welcome to Smart Shankar Test Quiz 🚀</h1>
+  <p>Your site is live on GitHub Pages!</p>
+</body>
+</html>
