@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Shankar Quiz</title>
+</head>
+<body style="font-family: Arial, sans-serif; text-align: center; background: #f5f5f5;">
+
+  <h1>Welcome to Smart Shankar Quiz</h1>
+  <p>Test your knowledge by answering the questions below!</p>
+
+  <div id="quiz">
+    <h3>1. What is the capital of India?</h3>
+    <button onclick="checkAnswer(this,'Delhi')">Delhi</button>
+    <button onclick="checkAnswer(this,'Mumbai')">Mumbai</button>
+    <button onclick="checkAnswer(this,'Kolkata')">Kolkata</button>
+    <button onclick="checkAnswer(this,'Chennai')">Chennai</button>
+
+    <h3>2. Who is known as the Father of the Nation (India)?</h3>
+    <button onclick="checkAnswer(this,'Mahatma Gandhi')">Mahatma Gandhi</button>
+    <button onclick="checkAnswer(this,'Subhash Chandra Bose')">Subhash Chandra Bose</button>
+    <button onclick="checkAnswer(this,'Jawaharlal Nehru')">Jawaharlal Nehru</button>
+    <button onclick="checkAnswer(this,'Bhagat Singh')">Bhagat Singh</button>
+  </div>
+
+  <h2 id="result"></h2>
+
+  <script>
+    function checkAnswer(button, answer) {
+      let correctAnswers = {
+        1: "Delhi",
+        2: "Mahatma Gandhi"
+      };
+
+      let question = button.parentElement.querySelector("h3").innerText;
+      let qNum = question.split(".")[0];
+
+      if (answer === correctAnswers[qNum]) {
+        document.getElementById("result").innerText = "✅ Correct Answer!";
+        document.getElementById("result").style.color = "green";
+      } else {
+        document.getElementById("result").innerText = "❌ Wrong Answer!";
+        document.getElementById("result").style.color = "red";
+      }
+    }
+  </script>
+
+</body>
+</html>
