@@ -4,17 +4,25 @@
   <meta charset="UTF-8">
   <title>Quiz App</title>
   <style>
-    #quiz, #question-container, #result-container { display:none; }
-    .buttons { margin-top: 10px; }
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    #quiz, #topic-menu, #question-container, #result-container { display:none; }
+    button { margin: 5px; padding: 10px 15px; border:none; border-radius:8px; background:#4CAF50; color:white; cursor:pointer; }
+    button:hover { background:#45a049; }
+    .card { margin:10px 0; padding:10px; border:1px solid #ddd; border-radius:8px; }
   </style>
 </head>
 <body>
-  <div id="topic-menu">
+  <!-- Section Menu -->
+  <div id="section-menu">
     <h2>Choose Section</h2>
-    <button onclick="startQuiz('history')">History</button>
-    <button onclick="startQuiz('economics')">Economics</button>
+    <button onclick="openTopics('history')">History</button>
+    <button onclick="openTopics('economics')">Economics</button>
   </div>
 
+  <!-- Topic Menu -->
+  <div id="topic-menu"></div>
+
+  <!-- Quiz Container -->
   <div id="quiz">
     <div id="question-container"></div>
     <div class="buttons">
@@ -24,41 +32,68 @@
     </div>
   </div>
 
+  <!-- Result -->
   <div id="result-container"></div>
 
-  <!-- अब JS को <script> टैग के अंदर डालो -->
   <script>
+    // Questions Data
     let sections = {
       history: {
         harappa: [
           {question:"हड़प्पा सभ्यता कहाँ स्थित थी?", options:["सिंधु घाटी","मेसोपोटामिया","मिस्र","चीन"], answer:"सिंधु घाटी"},
           {question:"मोहनजोदड़ो किस नदी के किनारे था?", options:["सिंधु","गंगा","यमुना","नर्मदा"], answer:"सिंधु"}
+        ],
+        maurya: [
+          {question:"चंद्रगुप्त मौर्य के गुरु कौन थे?", options:["चाणक्य","रामानुज","पतंजलि","कालिदास"], answer:"चाणक्य"}
         ]
       },
       economics: {
         basics: [
           {question:"भारत की मुद्रा क्या है?", options:["डॉलर","रुपया","पौंड","यूरो"], answer:"रुपया"}
+        ],
+        gdp: [
+          {question:"GDP का फुल फॉर्म क्या है?", options:["Gross Domestic Product","Global Data Power","Great Development Plan","Government Data Policy"], answer:"Gross Domestic Product"}
         ]
       }
     };
 
-    let currentSection = "history";
-    let currentTopic = "harappa";
+    let currentSection = "";
+    let currentTopic = "";
     let currentQuestion = 0;
     let userAnswers = {};
 
+    // Open Topics from Section
+    function openTopics(section){
+      currentSection = section;
+      document.getElementById("section-menu").style.display="none";
+      let topicDiv = document.getElementById("topic-menu");
+      topicDiv.style.display="block";
+      let html = `<h2>Choose Topic (${section.toUpperCase()})</h2>`;
+      for(let topic in sections[section]){
+        html += `<button onclick="startQuiz('${topic}')">${topic}</button>`;
+      }
+      html += `<br><br><button onclick="backToSections()">⬅ Back</button>`;
+      topicDiv.innerHTML = html;
+    }
+
+    // Back to Section Menu
+    function backToSections(){
+      document.getElementById("topic-menu").style.display="none";
+      document.getElementById("section-menu").style.display="block";
+    }
+
+    // Start Quiz
     function startQuiz(topic){
       currentTopic = topic;
       currentQuestion = 0;
       userAnswers = {};
       document.getElementById("topic-menu").style.display="none";
       document.getElementById("quiz").style.display="block";
-      document.getElementById("question-container").style.display="block";
-      document.querySelector(".buttons").style.display="block";
       document.getElementById("result-container").style.display="none";
       loadQuestion();
     }
 
+    // Load Question
     function loadQuestion(){
       let questions = sections[currentSection][currentTopic];
       let q = questions[currentQuestion];
@@ -70,11 +105,13 @@
       document.getElementById("question-container").innerHTML = html;
     }
 
+    // Save Answer
     function saveAnswer(){
       let selected = document.querySelector(`input[name="q${currentQuestion}"]:checked`);
       if(selected) userAnswers[currentQuestion] = selected.value;
     }
 
+    // Next Question
     function nextQuestion(){
       saveAnswer();
       let questions = sections[currentSection][currentTopic];
@@ -84,6 +121,7 @@
       }
     }
 
+    // Prev Question
     function prevQuestion(){
       saveAnswer();
       if(currentQuestion > 0){
@@ -92,6 +130,7 @@
       }
     }
 
+    // Show Result
     function showResult(){
       saveAnswer();
       let questions = sections[currentSection][currentTopic];
@@ -103,7 +142,7 @@
         let correct = (user === q.answer);
         if(correct) score++;
         resultHTML += `
-          <div style="margin-bottom:10px; padding:8px; border:1px solid #ddd; border-radius:8px;">
+          <div class="card">
             <p><b>Q${i+1}: ${q.question}</b></p>
             <p>आपका जवाब: <span style="color:${correct ? 'green' : 'red'}">${user}</span></p>
             <p>सही जवाब: <b style="color:green">${q.answer}</b></p>
@@ -119,12 +158,13 @@
       document.getElementById("result-container").innerHTML = resultHTML;
     }
 
+    // Restart Quiz
     function restartQuiz(){
       currentQuestion = 0;
       userAnswers = {};
       document.getElementById("quiz").style.display="none";
       document.getElementById("result-container").style.display="none";
-      document.getElementById("topic-menu").style.display="block";
+      document.getElementById("section-menu").style.display="block";
     }
   </script>
 </body>
