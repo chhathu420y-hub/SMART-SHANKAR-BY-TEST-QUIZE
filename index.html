@@ -75,33 +75,19 @@
   </div>
 
   <script>
-    const questions = [
-      {
-        question: "भारत की राजधानी कौन-सी है?",
-        options: ["दिल्ली", "मुंबई", "कोलकाता", "चेन्नई"],
-        answer: "दिल्ली"
-      },
-      {
-        question: "कंप्यूटर का दिमाग किसे कहते हैं?",
-        options: ["CPU", "RAM", "Hard Disk", "Monitor"],
-        answer: "CPU"
-      },
-      {
-        question: "भारत का राष्ट्रीय पशु कौन है?",
-        options: ["शेर", "बाघ", "हाथी", "गाय"],
-        answer: "बाघ"
-      },
-      {
-        question: "ताजमहल किसने बनवाया था?",
-        options: ["अकबर", "शाहजहाँ", "औरंगज़ेब", "बाबर"],
-        answer: "शाहजहाँ"
-      }
-    ];
+    // फिलहाल कोई भी question नहीं है
+    let questions = [];
 
     let currentQuestion = 0;
     let userAnswers = [];
 
     function loadQuestion() {
+      if (questions.length === 0) {
+        document.getElementById("question-container").innerHTML =
+          "<p>⚠️ अभी कोई प्रश्न उपलब्ध नहीं है।</p>";
+        document.querySelector(".buttons").style.display="none";
+        return;
+      }
       const container = document.getElementById("question-container");
       const q = questions[currentQuestion];
       container.innerHTML = `
@@ -127,55 +113,4 @@
 
     function prevQuestion() {
       saveAnswer();
-      if(currentQuestion > 0){
-        currentQuestion--;
-        loadQuestion();
-      }
-    }
-
-    function saveAnswer(){
-      const selected = document.querySelector('input[name="option"]:checked');
-      if(selected){
-        userAnswers[currentQuestion] = selected.value;
-      }
-    }
-
-    function showResult(){
-      saveAnswer();
-      let score = 0;
-      let resultHTML = "<h2>परिणाम / Result</h2>";
-      questions.forEach((q,i)=>{
-        let correct = q.answer;
-        let user = userAnswers[i] || "कोई जवाब नहीं";
-        if(user === correct) score++;
-        resultHTML += `
-          <div>
-            <b>Q${i+1}:</b> ${q.question}<br>
-            आपका जवाब: <span class="${user===correct?'correct':'wrong'}">${user}</span><br>
-            सही जवाब: <span class="correct">${correct}</span><br><br>
-          </div>
-        `;
-      });
-      resultHTML += `<h3>आपका स्कोर: ${score} / ${questions.length}</h3>`;
-      resultHTML += `<button class="restart" onclick="restartQuiz()">Restart Test</button>`;
-      document.getElementById("question-container").style.display="none";
-      document.querySelector(".buttons").style.display="none";
-      const resultBox = document.getElementById("result-container");
-      resultBox.style.display="block";
-      resultBox.innerHTML = resultHTML;
-    }
-
-    function restartQuiz(){
-      currentQuestion = 0;
-      userAnswers = [];
-      document.getElementById("question-container").style.display="block";
-      document.querySelector(".buttons").style.display="block";
-      document.getElementById("result-container").style.display="none";
-      loadQuestion();
-    }
-
-    loadQuestion();
-  </script>
-
-</body>
-</html>
+      if(currentQuestio
