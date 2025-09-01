@@ -65,6 +65,7 @@
 
   <h1>SMART SHANKAR QUIZE TEST</h1>
   <div class="quiz-container" id="quiz">
+    <h2 id="section-title">सेक्शन: HISTORY</h2>
     <div id="question-container"></div>
     <div class="buttons">
       <button class="prev" onclick="prevQuestion()">Previous</button>
@@ -75,42 +76,5 @@
   </div>
 
   <script>
-    // फिलहाल कोई भी question नहीं है
-    let questions = [];
-
-    let currentQuestion = 0;
-    let userAnswers = [];
-
-    function loadQuestion() {
-      if (questions.length === 0) {
-        document.getElementById("question-container").innerHTML =
-          "<p>⚠️ अभी कोई प्रश्न उपलब्ध नहीं है।</p>";
-        document.querySelector(".buttons").style.display="none";
-        return;
-      }
-      const container = document.getElementById("question-container");
-      const q = questions[currentQuestion];
-      container.innerHTML = `
-        <div class="question">Q${currentQuestion+1}: ${q.question}</div>
-        <div class="options">
-          ${q.options.map((opt,i)=>`
-            <label>
-              <input type="radio" name="option" value="${opt}" ${userAnswers[currentQuestion]===opt ? "checked":""}>
-              ${String.fromCharCode(65+i)}. ${opt}
-            </label>
-          `).join('')}
-        </div>
-      `;
-    }
-
-    function nextQuestion() {
-      saveAnswer();
-      if(currentQuestion < questions.length-1){
-        currentQuestion++;
-        loadQuestion();
-      }
-    }
-
-    function prevQuestion() {
-      saveAnswer();
-      if(currentQuestio
+    // दो sections के सवाल
+    const sections = {
