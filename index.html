@@ -14,17 +14,30 @@
       background: #f4f4f9;
     }
     .container {
-      width: 500px;
+      width: 600px;
       background: white;
-      padding: 20px;
+      padding: 25px;
       border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
       text-align: center;
     }
-    h1 {
-      margin-bottom: 20px;
-      color: #333;
+    h1 { color: #333; margin-bottom: 20px; }
+    .menu-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #00d25b;
+      color: white;
+      border: none;
+      padding: 12px 18px;
+      margin: 8px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      text-decoration: none;
     }
+    .menu-btn:hover { background: #00b94e; }
     .card {
       margin: 15px 0;
       padding: 10px;
@@ -32,6 +45,7 @@
       border-radius: 8px;
       text-align: left;
     }
+    #quiz, #result-container, #topic-menu { display:none; }
     button {
       margin: 8px;
       padding: 10px 20px;
@@ -39,11 +53,10 @@
       border-radius: 8px;
       background: #4CAF50;
       color: white;
-      font-size: 16px;
+      font-size: 15px;
       cursor: pointer;
     }
     button:hover { background: #45a049; }
-    #quiz, #result-container { display:none; }
   </style>
 </head>
 <body>
@@ -53,8 +66,8 @@
     <!-- Section Menu -->
     <div id="section-menu">
       <h2>Choose Section</h2>
-      <button onclick="openTopics('history')">History</button>
-      <button onclick="openTopics('economics')">Economics</button>
+      <button class="menu-btn" onclick="openTopics('history')">📖 History</button>
+      <button class="menu-btn" onclick="openTopics('economics')">💹 Economics</button>
     </div>
 
     <!-- Topic Menu -->
@@ -75,17 +88,23 @@
   </div>
 
   <script>
-    // Questions Data
+    // Data
     let sections = {
       history: {
         harappa: [
           {question:"हड़प्पा सभ्यता कहाँ स्थित थी?", options:["सिंधु घाटी","मेसोपोटामिया","मिस्र","चीन"], answer:"सिंधु घाटी"},
           {question:"मोहनजोदड़ो किस नदी के किनारे था?", options:["सिंधु","गंगा","यमुना","नर्मदा"], answer:"सिंधु"}
+        ],
+        maurya: [
+          {question:"चंद्रगुप्त मौर्य के गुरु कौन थे?", options:["चाणक्य","रामानुज","पतंजलि","कालिदास"], answer:"चाणक्य"}
         ]
       },
       economics: {
         basics: [
           {question:"भारत की मुद्रा क्या है?", options:["डॉलर","रुपया","पौंड","यूरो"], answer:"रुपया"}
+        ],
+        gdp: [
+          {question:"GDP का फुल फॉर्म क्या है?", options:["Gross Domestic Product","Global Data Power","Great Development Plan","Government Data Policy"], answer:"Gross Domestic Product"}
         ]
       }
     };
@@ -102,7 +121,7 @@
       topicDiv.style.display="block";
       let html = `<h2>Choose Topic</h2>`;
       for(let topic in sections[section]){
-        html += `<button onclick="startQuiz('${topic}')">${topic}</button>`;
+        html += `<button class="menu-btn" onclick="startQuiz('${topic}')">${topic}</button>`;
       }
       html += `<br><br><button onclick="backToSections()">⬅ Back</button>`;
       topicDiv.innerHTML = html;
